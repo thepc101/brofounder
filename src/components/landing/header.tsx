@@ -27,7 +27,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/[0.04] bg-[#0a1020]/80 backdrop-blur-xl"
+          ? "border-b border-white/10 bg-[#0a1020]/80 backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
@@ -89,7 +89,7 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-t border-white/[0.04] bg-[#0a1020]/95 backdrop-blur-xl md:hidden"
+            className="overflow-hidden border-t border-white/10 bg-[#0a1020]/95 backdrop-blur-xl md:hidden"
           >
             <div className="space-y-0.5 px-6 py-3">
               {navLinks.map((link) => (
@@ -102,7 +102,7 @@ export default function Header() {
                   {link.label}
                 </a>
               ))}
-              <div className="mt-2 border-t border-white/[0.04] pt-2 space-y-1">
+              <div className="mt-2 border-t border-white/10 pt-2 space-y-1">
                 <Link
                   href="/login"
                   onClick={() => setMobileOpen(false)}

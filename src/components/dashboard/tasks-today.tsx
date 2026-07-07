@@ -19,7 +19,7 @@ export function TasksToday() {
   const displayTasks = tasks.length > 0 ? tasks : defaultTasks;
 
   return (
-    <Card className="border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
+    <Card className="border-white/10 bg-gradient-to-br from-white/[0.03] to-transparent">
       <CardHeader className="pb-2 pt-4 px-4">
         <CardTitle className="flex items-center justify-between text-[13px] font-medium text-white/55">
           Today's Tasks
@@ -38,7 +38,7 @@ export function TasksToday() {
               <Checkbox
                 checked={task.completed}
                 onCheckedChange={() => toggleTask(task.id)}
-                className="mt-0.5 border-white/[0.12] data-[state=checked]:bg-blue-500/20 data-[state=checked]:border-blue-500/30"
+                className="mt-0.5 border-white/15 data-[state=checked]:bg-blue-500/20 data-[state=checked]:border-blue-500/30"
               />
               <span
                 className={cn(

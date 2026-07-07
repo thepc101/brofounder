@@ -54,9 +54,9 @@ export default function Features() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.4, delay: i * 0.04 }}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="group cursor-default rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 transition-colors hover:border-white/[0.12] hover:bg-white/[0.04]"
+              className="group cursor-default rounded-xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-white/15 hover:bg-white/[0.04]"
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03] transition-colors group-hover:border-white/[0.15]">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] transition-colors group-hover:border-white/20">
                 <feature.icon size={18} className="text-foreground/70" />
               </div>
               <h3 className="mb-2 text-sm font-medium">{feature.title}</h3>

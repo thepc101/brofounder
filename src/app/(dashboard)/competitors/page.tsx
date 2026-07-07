@@ -102,7 +102,7 @@ export default function CompetitorsPage() {
   return (
     <div className="flex h-full flex-col">
       {/* Quick URL Analyzer */}
-      <div className="border-b border-white/[0.06] px-6 py-3">
+      <div className="border-b border-white/10 px-6 py-3">
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
             <Globe
@@ -114,7 +114,7 @@ export default function CompetitorsPage() {
               onChange={(e) => setCompetitorUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && analyzeUrl()}
               placeholder="Paste a competitor URL to analyze..."
-              className="h-8 rounded-lg border-white/[0.08] bg-white/[0.03] pl-9 text-xs placeholder:text-white/20"
+              className="h-8 rounded-lg border-white/10 bg-white/[0.03] pl-9 text-xs placeholder:text-white/20"
             />
           </div>
           <Button

@@ -17,7 +17,7 @@ export function ActivityFeed() {
   const activities = useStore((s) => s.activities);
 
   return (
-    <Card className="border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
+    <Card className="border-white/10 bg-gradient-to-br from-white/[0.03] to-transparent">
       <CardHeader className="pb-2 pt-4 px-4">
         <CardTitle className="text-[13px] font-medium text-white/55">Recent Activity</CardTitle>
       </CardHeader>

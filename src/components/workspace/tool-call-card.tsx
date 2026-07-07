@@ -89,9 +89,9 @@ export function ToolCallCard({ toolName, args, result, isPending }: ToolCallCard
         className={cn(
           "rounded-lg border transition-all duration-200",
           isPending
-            ? "border-white/[0.08] bg-white/[0.02]"
+            ? "border-white/10 bg-white/[0.02]"
             : result?.success
-            ? "border-white/[0.08] bg-white/[0.02] hover:border-white/[0.12]"
+            ? "border-white/10 bg-white/[0.02] hover:border-white/15"
             : "border-red-500/20 bg-red-500/[0.02]"
         )}
       >
@@ -150,7 +150,7 @@ export function ToolCallCard({ toolName, args, result, isPending }: ToolCallCard
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="border-t border-white/[0.04] px-3 py-2.5">
+              <div className="border-t border-white/10 px-3 py-2.5">
                 {/* Args */}
                 {argEntries.length > 0 && (
                   <div className="mb-2">

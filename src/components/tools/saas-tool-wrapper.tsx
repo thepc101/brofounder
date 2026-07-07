@@ -120,7 +120,7 @@ export function SaaSToolWrapper({
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="border-b border-white/[0.06] px-6 py-4">
+      <div className="border-b border-white/10 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06]">
@@ -194,7 +194,7 @@ export function SaaSToolWrapper({
                 {metrics.map((m) => (
                   <div
                     key={m.label}
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3"
+                    className="rounded-lg border border-white/10 bg-white/[0.02] p-3"
                   >
                     <p className="text-[10px] uppercase tracking-wider text-white/30">{m.label}</p>
                     <p className="mt-1 text-sm font-medium text-white/70">{m.value}</p>
@@ -211,7 +211,7 @@ export function SaaSToolWrapper({
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="rounded-lg border border-white/[0.06] bg-white/[0.02]"
+                  className="rounded-lg border border-white/10 bg-white/[0.02]"
                 >
                   <button
                     onClick={() => toggleSection(section.id)}
@@ -246,13 +246,13 @@ export function SaaSToolWrapper({
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="border-t border-white/[0.04] px-4 py-3">
+                        <div className="border-t border-white/10 px-4 py-3">
                           {editingId === section.id ? (
                             <div className="space-y-2">
                               <Textarea
                                 value={editContent}
                                 onChange={(e) => setEditContent(e.target.value)}
-                                className="min-h-[200px] rounded-lg border-white/[0.08] bg-white/[0.03] text-sm"
+                                className="min-h-[200px] rounded-lg border-white/10 bg-white/[0.03] text-sm"
                               />
                               <div className="flex gap-2">
                                 <Button
@@ -315,7 +315,7 @@ export function SaaSToolWrapper({
 
       {/* Input */}
       {showPrompt && (
-        <div className="border-t border-white/[0.06] p-4">
+        <div className="border-t border-white/10 p-4">
           <div className="flex items-end gap-2">
             <Textarea
               ref={textareaRef}
@@ -323,7 +323,7 @@ export function SaaSToolWrapper({
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={placeholder}
-              className="min-h-[44px] max-h-[120px] resize-none rounded-xl border-white/[0.08] bg-white/[0.03] text-sm placeholder:text-white/20 focus:border-white/[0.15]"
+              className="min-h-[44px] max-h-[120px] resize-none rounded-xl border-white/10 bg-white/[0.03] text-sm placeholder:text-white/20 focus:border-white/20"
               rows={1}
             />
             <Button

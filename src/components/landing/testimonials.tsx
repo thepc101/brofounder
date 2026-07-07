@@ -71,9 +71,9 @@ export default function Testimonials() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="group rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 text-center transition-colors hover:border-white/[0.12]"
+              className="group rounded-xl border border-white/10 bg-white/[0.02] p-6 text-center transition-colors hover:border-white/15"
             >
-              <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
+              <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04]">
                 <stat.icon size={18} className="text-foreground/70" />
               </div>
               <p
@@ -103,7 +103,7 @@ export default function Testimonials() {
             {logos.map((logo) => (
               <div
                 key={logo.name}
-                className="flex h-14 w-36 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] p-3"
+                className="flex h-14 w-36 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] p-3"
               >
                 <img
                   src={logo.src}

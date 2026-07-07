@@ -71,7 +71,7 @@ function EditableSection({
   };
 
   return (
-    <div className="rounded-lg border border-white/[0.04] bg-white/[0.01]">
+    <div className="rounded-lg border border-white/10 bg-white/[0.01]">
       <button
         onClick={() => setOpen(!open)}
         className="flex w-full items-center gap-2 px-3 py-2.5 text-left"
@@ -124,7 +124,7 @@ function EditableSection({
               <Textarea
                 value={editValue}
                 onChange={(e) => setEditValue(e.target.value)}
-                className="min-h-[100px] rounded-lg border-white/[0.08] bg-white/[0.03] text-sm"
+                className="min-h-[100px] rounded-lg border-white/10 bg-white/[0.03] text-sm"
                 autoFocus
               />
             </div>
@@ -156,7 +156,7 @@ export function WorkspaceOutput() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="border-b border-white/[0.04] px-4 py-2.5">
+      <div className="border-b border-white/10 px-4 py-2.5">
         <div className="flex items-center gap-2">
           <FileText size={13} className="text-white/30" />
           <span className="text-[13px] font-medium text-white/50">Structured Outputs</span>

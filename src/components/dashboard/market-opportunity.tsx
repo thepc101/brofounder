@@ -8,7 +8,7 @@ export function MarketOpportunity() {
   const research = useStore((s) => s.marketResearch);
 
   return (
-    <Card className="border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
+    <Card className="border-white/10 bg-gradient-to-br from-white/[0.03] to-transparent">
       <CardHeader className="pb-2 pt-4 px-4">
         <CardTitle className="text-[13px] font-medium text-white/55">Market Opportunity</CardTitle>
       </CardHeader>
@@ -23,7 +23,7 @@ export function MarketOpportunity() {
             ].map((item) => (
               <div
                 key={item.label}
-                className="rounded-lg border border-white/[0.04] bg-white/[0.02] p-2.5"
+                className="rounded-lg border border-white/10 bg-white/[0.02] p-2.5"
               >
                 <div className="flex items-center gap-1 text-[10px] text-white/20">
                   <item.icon size={10} />

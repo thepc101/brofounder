@@ -87,7 +87,7 @@ export default function SettingsPage() {
   return (
     <div className="flex h-full">
       {/* Sidebar */}
-      <div className="w-48 shrink-0 border-r border-white/[0.05] p-3">
+      <div className="w-48 shrink-0 border-r border-white/10 p-3">
         <p className="mb-3 px-2.5 text-[9px] font-semibold uppercase tracking-widest text-white/12">
           Settings
         </p>
@@ -125,7 +125,7 @@ export default function SettingsPage() {
                 <h2 className="text-[15px] font-semibold text-white/75">Profile</h2>
                 <p className="mt-0.5 text-[12px] text-white/25">Manage your personal information</p>
               </div>
-              <div className="flex items-center gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+              <div className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4">
                 <div className="relative">
                   <Avatar className="h-16 w-16">
                     <AvatarFallback className="bg-blue-500/10 text-lg text-blue-400/40">
@@ -147,7 +147,7 @@ export default function SettingsPage() {
                   <div className="relative">
                     <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/15" />
                     <Input value={name} onChange={(e) => setName(e.target.value)}
-                      className="h-9 rounded-lg border-white/[0.08] bg-white/[0.03] pl-9 text-sm" placeholder="Your name" />
+                      className="h-9 rounded-lg border-white/10 bg-white/[0.03] pl-9 text-sm" placeholder="Your name" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
@@ -155,7 +155,7 @@ export default function SettingsPage() {
                   <div className="relative">
                     <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/15" />
                     <Input value={email} onChange={(e) => setEmail(e.target.value)} type="email"
-                      className="h-9 rounded-lg border-white/[0.08] bg-white/[0.03] pl-9 text-sm" placeholder="your@email.com" />
+                      className="h-9 rounded-lg border-white/10 bg-white/[0.03] pl-9 text-sm" placeholder="your@email.com" />
                   </div>
                 </div>
                 <Button onClick={handleSaveProfile} className="h-9 rounded-lg bg-blue-500/15 text-sm text-blue-400/70 hover:bg-blue-500/20">
@@ -181,7 +181,7 @@ export default function SettingsPage() {
                       "flex w-full items-center gap-3 rounded-xl border p-3.5 text-left transition-all",
                       aiQuality === opt.value
                         ? "border-blue-500/20 bg-blue-500/[0.05]"
-                        : "border-white/[0.06] bg-white/[0.02] hover:border-white/[0.1]"
+                        : "border-white/10 bg-white/[0.02] hover:border-white/15"
                     )}
                   >
                     <div className={cn(
@@ -198,12 +198,12 @@ export default function SettingsPage() {
                       "h-4 w-4 rounded-full border-2 transition-all",
                       aiQuality === opt.value
                         ? "border-blue-400/50 bg-blue-400/20"
-                        : "border-white/[0.12]"
+                        : "border-white/15"
                     )} />
                   </button>
                 ))}
               </div>
-              <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
                 <p className="text-[11px] font-medium text-white/30 uppercase tracking-wider mb-2">About Models</p>
                 <div className="space-y-2 text-[12px] text-white/30">
                   <p><span className="text-white/50">High:</span> llama-3.3-70b-versatile — best reasoning, 8K tokens</p>
@@ -220,7 +220,7 @@ export default function SettingsPage() {
                 <h2 className="text-[15px] font-semibold text-white/75">Appearance</h2>
                 <p className="mt-0.5 text-[12px] text-white/25">Customize how brofounder looks</p>
               </div>
-              <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Moon size={16} className="text-white/35" />
@@ -247,7 +247,7 @@ export default function SettingsPage() {
                   { key: "push", label: "Push Notifications", desc: "Browser push notifications" },
                   { key: "weekly", label: "Weekly Digest", desc: "Summary of your progress" },
                 ].map((item) => (
-                  <div key={item.key} className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+                  <div key={item.key} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4">
                     <div>
                       <p className="text-[13px] text-white/60">{item.label}</p>
                       <p className="text-[11px] text-white/25">{item.desc}</p>
@@ -268,18 +268,18 @@ export default function SettingsPage() {
                 <h2 className="text-[15px] font-semibold text-white/75">Security</h2>
                 <p className="mt-0.5 text-[12px] text-white/25">Manage your password and security</p>
               </div>
-              <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Key size={14} className="text-white/35" />
                   <p className="text-[13px] font-medium text-white/60">Change Password</p>
                 </div>
                 <div className="space-y-2.5">
                   <Input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
-                    placeholder="Current password" className="h-9 rounded-lg border-white/[0.08] bg-white/[0.03] text-sm" />
+                    placeholder="Current password" className="h-9 rounded-lg border-white/10 bg-white/[0.03] text-sm" />
                   <Input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="New password" className="h-9 rounded-lg border-white/[0.08] bg-white/[0.03] text-sm" />
+                    placeholder="New password" className="h-9 rounded-lg border-white/10 bg-white/[0.03] text-sm" />
                   <Input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm new password" className="h-9 rounded-lg border-white/[0.08] bg-white/[0.03] text-sm" />
+                    placeholder="Confirm new password" className="h-9 rounded-lg border-white/10 bg-white/[0.03] text-sm" />
                   <Button onClick={handleChangePassword} className="h-9 rounded-lg bg-blue-500/15 text-sm text-blue-400/70 hover:bg-blue-500/20">
                     Update Password
                   </Button>
@@ -294,7 +294,7 @@ export default function SettingsPage() {
                 <h2 className="text-[15px] font-semibold text-white/75">Data & Privacy</h2>
                 <p className="mt-0.5 text-[12px] text-white/25">Control your data</p>
               </div>
-              <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Download size={16} className="text-white/35" />
@@ -304,7 +304,7 @@ export default function SettingsPage() {
                     </div>
                   </div>
                   <Button variant="outline" size="sm" onClick={handleExportData}
-                    className="h-8 rounded-lg border-white/[0.08] text-[11px]">Export</Button>
+                    className="h-8 rounded-lg border-white/10 text-[11px]">Export</Button>
                 </div>
               </div>
             </div>
@@ -317,14 +317,14 @@ export default function SettingsPage() {
                 <p className="mt-0.5 text-[12px] text-white/25">Irreversible actions</p>
               </div>
               <div className="space-y-2">
-                <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-[13px] text-white/60">Sign Out</p>
                       <p className="text-[11px] text-white/25">Sign out on this device</p>
                     </div>
                     <Button variant="outline" size="sm" onClick={() => { logout(); toast.success("Signed out"); router.push("/"); }}
-                      className="h-8 gap-1.5 rounded-lg border-white/[0.08] text-[11px]">
+                      className="h-8 gap-1.5 rounded-lg border-white/10 text-[11px]">
                       <LogOut size={12} /> Sign Out
                     </Button>
                   </div>

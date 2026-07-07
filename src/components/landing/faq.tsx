@@ -69,7 +69,7 @@ export default function FAQ() {
         >
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="border-white/[0.06]">
+              <AccordionItem key={i} value={`item-${i}`} className="border-white/10">
                 <AccordionTrigger className="text-left text-sm font-medium hover:no-underline hover:text-foreground py-4">
                   {faq.question}
                 </AccordionTrigger>

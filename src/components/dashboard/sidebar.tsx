@@ -60,7 +60,7 @@ export function Sidebar() {
       {/* Logo */}
       <div
         className={cn(
-          "flex h-12 items-center border-b border-white/[0.05] px-2.5",
+          "flex h-12 items-center border-b border-white/10 px-2.5",
           collapsed && "justify-center px-0"
         )}
       >
@@ -147,7 +147,7 @@ export function Sidebar() {
       </nav>
 
       {/* Bottom */}
-      <div className="border-t border-white/[0.05] p-2">
+      <div className="border-t border-white/10 p-2">
         <Link
           href="/settings"
           className={cn(

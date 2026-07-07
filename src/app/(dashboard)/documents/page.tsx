@@ -67,7 +67,7 @@ export default function DocumentsPage() {
   return (
     <div className="flex h-full flex-col">
       {/* Doc Type Selector */}
-      <div className="border-b border-white/[0.06] px-6 py-3">
+      <div className="border-b border-white/10 px-6 py-3">
         <div className="flex items-center gap-2">
           {docTypes.map((dt) => (
             <button

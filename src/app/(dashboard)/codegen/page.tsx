@@ -89,7 +89,7 @@ export default function CodeGenPage() {
   return (
     <div className="flex h-full flex-col">
       {/* Code Type Selector */}
-      <div className="border-b border-white/[0.06] px-6 py-3">
+      <div className="border-b border-white/10 px-6 py-3">
         <div className="flex items-center gap-2">
           {codeTypes.map((ct) => (
             <button

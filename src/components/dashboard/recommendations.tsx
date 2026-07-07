@@ -22,7 +22,7 @@ export function Recommendations() {
   const recommendations = getRecommendations(store);
 
   return (
-    <Card className="border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
+    <Card className="border-white/10 bg-gradient-to-br from-white/[0.03] to-transparent">
       <CardHeader className="pb-2 pt-4 px-4">
         <CardTitle className="flex items-center gap-2 text-[13px] font-medium text-white/55">
           <Lightbulb size={13} className="text-amber-400/40" />

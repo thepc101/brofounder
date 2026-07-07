@@ -14,7 +14,7 @@ export function DashboardHeader({ title, description, actions }: DashboardHeader
   const user = useStore((s) => s.user);
 
   return (
-    <div className="flex items-center justify-between border-b border-white/[0.05] px-6 py-3">
+    <div className="flex items-center justify-between border-b border-white/10 px-6 py-3">
       <div>
         <h1 className="text-[15px] font-semibold text-white/80">{title}</h1>
         {description && <p className="mt-0.5 text-[12px] text-white/30">{description}</p>}

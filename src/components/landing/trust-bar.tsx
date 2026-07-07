@@ -32,7 +32,7 @@ export function TrustBar() {
           {[...logos, ...logos, ...logos].map((logo, i) => (
             <div
               key={`${logo.name}-${i}`}
-              className="flex h-12 w-28 shrink-0 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] p-2 transition-colors hover:border-white/[0.12] hover:bg-white/[0.05]"
+              className="flex h-12 w-28 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] p-2 transition-colors hover:border-white/15 hover:bg-white/[0.05]"
             >
               <Image
                 src={logo.src}

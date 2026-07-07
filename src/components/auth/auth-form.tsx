@@ -94,7 +94,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               <Input
                 id="name"
                 placeholder="Alex Chen"
-                className="h-10 rounded-xl border-white/[0.08] bg-white/[0.03] pl-9 text-sm placeholder:text-white/15"
+                className="h-10 rounded-xl border-white/10 bg-white/[0.03] pl-9 text-sm placeholder:text-white/15"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 required
@@ -114,7 +114,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               id="email"
               type="email"
               placeholder="alex@example.com"
-              className="h-10 rounded-xl border-white/[0.08] bg-white/[0.03] pl-9 text-sm placeholder:text-white/15"
+              className="h-10 rounded-xl border-white/10 bg-white/[0.03] pl-9 text-sm placeholder:text-white/15"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -133,7 +133,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
-              className="h-10 rounded-xl border-white/[0.08] bg-white/[0.03] pl-9 pr-9 text-sm placeholder:text-white/15"
+              className="h-10 rounded-xl border-white/10 bg-white/[0.03] pl-9 pr-9 text-sm placeholder:text-white/15"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required

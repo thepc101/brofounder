@@ -27,7 +27,7 @@ const slides = [
             { label: "Market Size", value: "$12B" },
             { label: "Competitors", value: "12 found" },
           ].map((stat) => (
-            <div key={stat.label} className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+            <div key={stat.label} className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
               <p className="text-[10px] text-muted-foreground">{stat.label}</p>
               <p className="mt-1 text-base font-semibold">{stat.value}</p>
             </div>
@@ -47,7 +47,7 @@ const slides = [
     description: "Chat with your AI co-founder and get structured outputs — business plans, roadmaps, and more.",
     content: (
       <div className="grid grid-cols-[1fr_1.5fr] gap-3">
-        <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+        <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
           <div className="space-y-2">
             {["Help me validate my SaaS idea", "Here's the market analysis", "What about pricing?"].map(
               (msg, i) => (
@@ -64,14 +64,14 @@ const slides = [
               )
             )}
           </div>
-          <div className="mt-3 flex items-center gap-2 border-t border-white/[0.06] pt-2.5">
+          <div className="mt-3 flex items-center gap-2 border-t border-white/10 pt-2.5">
             <div className="h-7 flex-1 rounded-md bg-white/[0.04]" />
             <div className="h-7 w-7 rounded-md bg-white/[0.06]" />
           </div>
         </div>
         <div className="space-y-2">
           {["Business Summary", "Market Analysis", "Roadmap", "Pricing", "GTM Strategy"].map((s) => (
-            <div key={s} className="rounded-md border border-white/[0.06] bg-white/[0.02] px-3 py-2">
+            <div key={s} className="rounded-md border border-white/10 bg-white/[0.02] px-3 py-2">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-muted-foreground">{s}</span>
                 <div className="h-3 w-3 rounded bg-white/[0.06]" />
@@ -92,23 +92,23 @@ const slides = [
           {["Market", "Competitors", "SWOT", "Trends", "Porter's Five"].map((t) => (
             <span
               key={t}
-              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[10px] text-muted-foreground"
+              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[10px] text-muted-foreground"
             >
               {t}
             </span>
           ))}
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+          <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
             <p className="text-[10px] text-muted-foreground">Total Addressable Market</p>
             <p className="mt-1 text-2xl font-bold">$50B</p>
           </div>
-          <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+          <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
             <p className="text-[10px] text-muted-foreground">Serviceable Market</p>
             <p className="mt-1 text-2xl font-bold">$12B</p>
           </div>
         </div>
-        <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+        <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
           <p className="text-[10px] text-muted-foreground mb-2">SWOT Analysis</p>
           <div className="grid grid-cols-2 gap-2">
             <div className="rounded-md bg-white/[0.04] p-2">
@@ -195,7 +195,7 @@ export default function Preview() {
 
           {/* Carousel */}
           <div
-            className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02]"
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >
@@ -209,7 +209,7 @@ export default function Preview() {
                 className="p-8 sm:p-10"
               >
                 <div className="mb-6 flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04]">
                     {(() => {
                       const Icon = slides[current].icon;
                       return <Icon size={16} className="text-foreground/70" />;
@@ -234,14 +234,14 @@ export default function Preview() {
             {/* Nav buttons */}
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/[0.1] bg-background/80 p-2 text-muted-foreground backdrop-blur-sm transition-all hover:border-white/[0.2] hover:text-foreground"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-background/80 p-2 text-muted-foreground backdrop-blur-sm transition-all hover:border-white/25 hover:text-foreground"
               aria-label="Previous"
             >
               <ChevronLeft size={16} />
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/[0.1] bg-background/80 p-2 text-muted-foreground backdrop-blur-sm transition-all hover:border-white/[0.2] hover:text-foreground"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-background/80 p-2 text-muted-foreground backdrop-blur-sm transition-all hover:border-white/25 hover:text-foreground"
               aria-label="Next"
             >
               <ChevronRight size={16} />

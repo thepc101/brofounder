@@ -12,7 +12,7 @@ export function ProjectCard() {
 
   if (!project) {
     return (
-      <Card className="border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
+      <Card className="border-white/10 bg-gradient-to-br from-white/[0.03] to-transparent">
         <CardContent className="flex flex-col items-center justify-center py-10">
           <Rocket size={24} className="mb-2 text-white/12" />
           <p className="text-[13px] text-white/25">No project yet</p>
@@ -33,7 +33,7 @@ export function ProjectCard() {
   };
 
   return (
-    <Card className="group border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent transition-all duration-200 hover:border-white/[0.1]">
+    <Card className="group border-white/10 bg-gradient-to-br from-white/[0.03] to-transparent transition-all duration-200 hover:border-white/15">
       <CardContent className="p-4">
         <div className="flex items-start justify-between">
           <div className="space-y-1">

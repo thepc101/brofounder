@@ -104,11 +104,11 @@ export function WorkspaceChat() {
       {/* History Sidebar */}
       <div
         className={cn(
-          "flex flex-col border-r border-white/[0.06] bg-white/[0.01] transition-all duration-300",
+          "flex flex-col border-r border-white/10 bg-white/[0.01] transition-all duration-300",
           showHistory ? "w-56" : "w-0 overflow-hidden"
         )}
       >
-        <div className="flex items-center justify-between border-b border-white/[0.06] px-3 py-2.5">
+        <div className="flex items-center justify-between border-b border-white/10 px-3 py-2.5">
           <span className="text-[11px] font-medium text-white/40">History</span>
           <button
             onClick={() => setShowHistory(false)}
@@ -180,7 +180,7 @@ export function WorkspaceChat() {
       {/* Main Chat */}
       <div className="flex flex-1 flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2">
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-2">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowHistory(!showHistory)}
@@ -203,7 +203,7 @@ export function WorkspaceChat() {
 
           <div className="flex items-center gap-1.5">
             {/* Quality selector */}
-            <div className="flex items-center rounded-lg border border-white/[0.06] bg-white/[0.02] p-0.5">
+            <div className="flex items-center rounded-lg border border-white/10 bg-white/[0.02] p-0.5">
               {qualityOptions.map((opt) => (
                 <button
                   key={opt.value}
@@ -268,7 +268,7 @@ export function WorkspaceChat() {
                         setInput(s.prompt);
                         textareaRef.current?.focus();
                       }}
-                      className="group flex items-start gap-2.5 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 text-left transition-all hover:border-white/[0.1] hover:bg-white/[0.04]"
+                      className="group flex items-start gap-2.5 rounded-xl border border-white/10 bg-white/[0.02] p-3 text-left transition-all hover:border-white/15 hover:bg-white/[0.04]"
                     >
                       <s.icon
                         size={14}
@@ -362,7 +362,7 @@ export function WorkspaceChat() {
         </ScrollArea>
 
         {/* Input */}
-        <div className="border-t border-white/[0.06] p-3">
+        <div className="border-t border-white/10 p-3">
           <div className="flex items-end gap-2">
             <Textarea
               ref={textareaRef}
@@ -370,7 +370,7 @@ export function WorkspaceChat() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask me anything — I can browse, research, analyze, and build..."
-              className="min-h-[42px] max-h-[120px] resize-none rounded-xl border-white/[0.08] bg-white/[0.03] text-[13px] placeholder:text-white/15 focus:border-blue-500/30 focus:ring-blue-500/10"
+              className="min-h-[42px] max-h-[120px] resize-none rounded-xl border-white/10 bg-white/[0.03] text-[13px] placeholder:text-white/15 focus:border-blue-500/30 focus:ring-blue-500/10"
               rows={1}
             />
             {isThinking ? (
