@@ -1,77 +1,106 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
-import { useStore } from "@/lib/store";
-import { DocumentCard } from "@/components/documents/document-card";
-import { Button } from "@/components/ui/button";
-import { FileText, RefreshCw, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
+import { FileText, FileCheck, Presentation, BarChart, Route } from "lucide-react";
+import { SaaSToolWrapper } from "@/components/tools/saas-tool-wrapper";
+import { useStore } from "@/lib/store";
 import { generateId } from "@/lib/utils";
+import { motion } from "framer-motion";
+
+const docTypes = [
+  { id: "pitch-deck", label: "Pitch Deck", icon: Presentation, description: "Investor-ready pitch presentation" },
+  { id: "business-plan", label: "Business Plan", icon: FileCheck, description: "Comprehensive business plan" },
+  { id: "prd", label: "PRD", icon: FileText, description: "Product requirements document" },
+  { id: "investor-summary", label: "Investor Summary", icon: BarChart, description: "One-page investor brief" },
+  { id: "tech-roadmap", label: "Tech Roadmap", icon: Route, description: "Technical development roadmap" },
+];
+
+interface DocSection {
+  id: string;
+  title: string;
+  content: string;
+  type: string;
+  editable?: boolean;
+}
 
 export default function DocumentsPage() {
-  const documents = useStore((s) => s.documents);
-  const addDocument = useStore((s) => s.addDocument);
-  const addActivity = useStore((s) => s.addActivity);
-  const [loading, setLoading] = useState(false);
+  const [sections, setSections] = useState<DocSection[]>([]);
+  const [docType, setDocType] = useState("pitch-deck");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const project = useStore((s) => s.project);
+  const onboardingData = useStore((s) => s.onboardingData);
 
-  const generateDocuments = async () => {
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 3000));
+  const handleGenerate = async (prompt: string) => {
+    setIsGenerating(true);
+    try {
+      const fullPrompt = `Generate a ${docTypes.find((d) => d.id === docType)?.label || docType}. ${prompt}`;
+      const response = await fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: fullPrompt,
+          type: docType,
+          projectName: project?.name,
+          industry: onboardingData.industry,
+          onboardingData,
+        }),
+      });
+      const data = await response.json();
+      if (data.sections) setSections(data.sections);
+    } catch {
+      setSections([
+        {
+          id: generateId(),
+          title: "Error",
+          content: "Failed to generate document. Please try again.",
+          type: "error",
+        },
+      ]);
+    }
+    setIsGenerating(false);
+  };
 
-    const newDocs = [
-      { id: generateId(), title: "Executive Summary", type: "business-plan" as const, content: "Business plan content...", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), exported: false },
-      { id: generateId(), title: "Pitch Deck Outline", type: "pitch-deck" as const, content: "Pitch deck content...", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), exported: false },
-      { id: generateId(), title: "PRD v1", type: "prd" as const, content: "PRD content...", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), exported: false },
-    ];
-
-    newDocs.forEach((doc) => addDocument(doc));
-    addActivity({
-      id: generateId(),
-      type: "document",
-      title: "Documents generated",
-      description: "Generated 3 business documents",
-      timestamp: new Date().toISOString(),
-    });
-    toast.success("Documents generated");
-    setLoading(false);
+  const handleSectionEdit = (id: string, content: string) => {
+    setSections((prev) => prev.map((s) => (s.id === id ? { ...s, content } : s)));
   };
 
   return (
-    <div>
-      <DashboardHeader title="Documents" description="Automatically generated business documents." />
-      <div className="mx-auto max-w-4xl space-y-6 p-6">
-        {documents.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <FileText size={32} className="text-muted-foreground mb-3" />
-            <p className="text-sm text-muted-foreground mb-4">No documents yet.</p>
-            <Button onClick={generateDocuments} disabled={loading} className="gap-2">
-              {loading ? <Loader2 size={16} className="animate-spin" /> : <FileText size={16} />}
-              Generate Documents
-            </Button>
-          </div>
-        ) : (
-          <>
-            <div className="flex justify-end">
-              <Button onClick={generateDocuments} variant="outline" size="sm" disabled={loading} className="gap-2">
-                {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-                Generate More
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {documents.map((doc) => (
-                <motion.div
-                  key={doc.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <DocumentCard document={doc} />
-                </motion.div>
-              ))}
-            </div>
-          </>
-        )}
+    <div className="flex h-full flex-col">
+      {/* Doc Type Selector */}
+      <div className="border-b border-white/[0.06] px-6 py-3">
+        <div className="flex items-center gap-2">
+          {docTypes.map((dt) => (
+            <button
+              key={dt.id}
+              onClick={() => {
+                setDocType(dt.id);
+                setSections([]);
+              }}
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs transition-all ${
+                docType === dt.id
+                  ? "bg-white/[0.08] text-white/80"
+                  : "text-white/30 hover:bg-white/[0.04] hover:text-white/50"
+              }`}
+            >
+              <dt.icon size={12} />
+              {dt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tool */}
+      <div className="flex-1 overflow-hidden">
+        <SaaSToolWrapper
+          title={`${docTypes.find((d) => d.id === docType)?.label || "Document"} Generator`}
+          description={docTypes.find((d) => d.id === docType)?.description || "Generate documents"}
+          icon={FileText}
+          placeholder={`Describe your ${docTypes.find((d) => d.id === docType)?.label || "document"}... e.g., 'Generate a pitch deck for an AI-powered task management tool raising $2M seed'`}
+          sections={sections}
+          isGenerating={isGenerating}
+          onGenerate={handleGenerate}
+          onSectionEdit={handleSectionEdit}
+        />
       </div>
     </div>
   );

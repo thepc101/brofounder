@@ -8,27 +8,13 @@ import Link from "next/link";
 const getRecommendations = (store: ReturnType<typeof useStore.getState>) => {
   const recs: { text: string; href: string }[] = [];
 
-  if (!store.project) {
-    recs.push({ text: "Complete onboarding to set up your workspace", href: "/onboarding" });
-  }
-  if (!store.marketResearch) {
-    recs.push({ text: "Run market research to understand your opportunity", href: "/research" });
-  }
-  if (!store.validationResult) {
-    recs.push({ text: "Validate your idea with AI-powered scoring", href: "/validation" });
-  }
-  if (store.competitors.length === 0) {
-    recs.push({ text: "Analyze competitors to find market gaps", href: "/competitors" });
-  }
-  if (store.personas.length === 0) {
-    recs.push({ text: "Define your customer personas for better targeting", href: "/audience" });
-  }
-  if (!store.mvpPlan) {
-    recs.push({ text: "Plan your MVP with prioritized features", href: "/mvp" });
-  }
-  if (!store.marketingPlan) {
-    recs.push({ text: "Create a marketing plan for your launch", href: "/marketing" });
-  }
+  if (!store.project) recs.push({ text: "Complete onboarding to set up your workspace", href: "/onboarding" });
+  if (!store.marketResearch) recs.push({ text: "Run market research to understand your opportunity", href: "/research" });
+  if (!store.validationResult) recs.push({ text: "Validate your idea with AI-powered scoring", href: "/validation" });
+  if (store.competitors.length === 0) recs.push({ text: "Analyze competitors to find market gaps", href: "/competitors" });
+  if (store.personas.length === 0) recs.push({ text: "Define your customer personas for better targeting", href: "/audience" });
+  if (!store.mvpPlan) recs.push({ text: "Plan your MVP with prioritized features", href: "/mvp" });
+  if (!store.marketingPlan) recs.push({ text: "Create a marketing plan for your launch", href: "/marketing" });
 
   return recs.slice(0, 5);
 };
@@ -38,25 +24,28 @@ export function Recommendations() {
   const recommendations = getRecommendations(store);
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-sm font-medium">
-          <Lightbulb size={14} />
-          AI Recommendations
+    <Card className="border-white/[0.06] bg-white/[0.02]">
+      <CardHeader className="pb-2 pt-4 px-4">
+        <CardTitle className="flex items-center gap-2 text-[13px] font-medium text-white/60">
+          <Lightbulb size={13} className="text-white/30" />
+          Next Steps
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 pb-4">
         {recommendations.length === 0 ? (
-          <p className="text-sm text-muted-foreground">You're all caught up!</p>
+          <p className="text-[13px] text-white/30">You're all caught up!</p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {recommendations.map((rec, i) => (
               <Link
                 key={i}
                 href={rec.href}
-                className="group flex items-start gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="group flex items-start gap-2 text-[13px] text-white/35 transition-colors hover:text-white/55"
               >
-                <ArrowRight size={14} className="mt-0.5 shrink-0 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight
+                  size={12}
+                  className="mt-0.5 shrink-0 transition-transform group-hover:translate-x-0.5"
+                />
                 <span>{rec.text}</span>
               </Link>
             ))}

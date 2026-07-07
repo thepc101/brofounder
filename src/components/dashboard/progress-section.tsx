@@ -5,21 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 const milestones = [
-  { key: "workspace", label: "Workspace Created", weight: 10 },
-  { key: "research", label: "Market Research", weight: 15 },
-  { key: "validation", label: "Idea Validation", weight: 15 },
-  { key: "competitors", label: "Competitor Analysis", weight: 10 },
-  { key: "personas", label: "Customer Personas", weight: 10 },
-  { key: "mvp", label: "MVP Planning", weight: 15 },
-  { key: "marketing", label: "Marketing Plan", weight: 10 },
-  { key: "documents", label: "Documents", weight: 10 },
-  { key: "launch", label: "Launch Ready", weight: 5 },
+  { key: "workspace", label: "Workspace Created" },
+  { key: "research", label: "Market Research" },
+  { key: "validation", label: "Idea Validation" },
+  { key: "competitors", label: "Competitor Analysis" },
+  { key: "personas", label: "Customer Personas" },
+  { key: "mvp", label: "MVP Planning" },
+  { key: "marketing", label: "Marketing Plan" },
+  { key: "documents", label: "Documents" },
 ];
 
 export function ProgressSection() {
   const store = useStore();
 
-  const completedCount = [
+  const completedFlags = [
     !!store.project,
     !!store.marketResearch,
     !!store.validationResult,
@@ -28,38 +27,38 @@ export function ProgressSection() {
     !!store.mvpPlan,
     !!store.marketingPlan,
     store.documents.length > 0,
-  ].filter(Boolean).length;
+  ];
 
+  const completedCount = completedFlags.filter(Boolean).length;
   const progress = Math.round((completedCount / 8) * 100);
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-sm font-medium">Progress</CardTitle>
+    <Card className="border-white/[0.06] bg-white/[0.02]">
+      <CardHeader className="pb-2 pt-4 px-4">
+        <CardTitle className="text-[13px] font-medium text-white/60">Progress</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 pb-4">
         <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-bold tracking-tight">{progress}%</span>
-          <span className="text-sm text-muted-foreground">complete</span>
+          <span
+            className="text-3xl font-normal tracking-tight text-white/80"
+            style={{ fontFamily: "var(--font-display-face)" }}
+          >
+            {progress}%
+          </span>
+          <span className="text-[11px] text-white/25">complete</span>
         </div>
-        <Progress value={progress} className="mt-3 h-1.5" />
-        <div className="mt-4 space-y-2">
-          {milestones.slice(0, 5).map((m) => (
-            <div key={m.key} className="flex items-center gap-2 text-xs">
+        <Progress value={progress} className="mt-2 h-1 bg-white/[0.04]" />
+        <div className="mt-3 space-y-1.5">
+          {milestones.map((m, i) => (
+            <div key={m.key} className="flex items-center gap-2 text-[11px]">
               <div
-                className="h-1.5 w-1.5 rounded-full"
+                className="h-1 w-1 rounded-full transition-colors"
                 style={{
-                  backgroundColor: completedCount >= milestones.indexOf(m) + 1
-                    ? "var(--foreground)"
-                    : "var(--border)",
+                  backgroundColor: completedFlags[i] ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.1)",
                 }}
               />
               <span
-                className={
-                  completedCount >= milestones.indexOf(m) + 1
-                    ? "text-foreground"
-                    : "text-muted-foreground"
-                }
+                className={completedFlags[i] ? "text-white/50" : "text-white/20"}
               >
                 {m.label}
               </span>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <rect width="240" height="240" rx="32" fill="#1A1A2E"/>
+  <text x="120" y="145" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="400" fill="#8892A0" text-anchor="middle">Seedcamp</text>
+  <path d="M185 80c5-15 20-20 20-20s-5 15-10 20c5 0 10-5 10-5s-8 10-15 8c8 5 15 0 15 0s-10 8-18 3" fill="#7ED321" opacity="0.9"/>
+</svg>

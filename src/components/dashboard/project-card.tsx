@@ -2,7 +2,7 @@
 
 import { useStore } from "@/lib/store";
 import { formatDate } from "@/lib/utils";
-import { Calendar, ArrowUpRight } from "lucide-react";
+import { Calendar, ArrowUpRight, Rocket } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -12,12 +12,13 @@ export function ProjectCard() {
 
   if (!project) {
     return (
-      <Card>
-        <CardContent className="flex flex-col items-center justify-center py-12">
-          <p className="text-sm text-muted-foreground">No project yet</p>
+      <Card className="border-white/[0.06] bg-white/[0.02]">
+        <CardContent className="flex flex-col items-center justify-center py-10">
+          <Rocket size={24} className="mb-2 text-white/15" />
+          <p className="text-sm text-white/30">No project yet</p>
           <Link
             href="/onboarding"
-            className="mt-2 text-sm font-medium text-foreground hover:underline"
+            className="mt-2 text-sm font-medium text-white/50 transition-colors hover:text-white/70"
           >
             Start your onboarding
           </Link>
@@ -35,28 +36,29 @@ export function ProjectCard() {
   };
 
   return (
-    <Card className="group">
-      <CardContent className="p-5">
+    <Card className="group border-white/[0.06] bg-white/[0.02] transition-all duration-200 hover:border-white/[0.1]">
+      <CardContent className="p-4">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <h3 className="font-semibold">{project.name}</h3>
-            <p className="text-sm text-muted-foreground line-clamp-2">
-              {project.description}
-            </p>
+            <h3 className="text-[15px] font-medium text-white/80">{project.name}</h3>
+            <p className="line-clamp-2 text-[13px] text-white/35">{project.description}</p>
           </div>
           <Link
             href="/workspace"
-            className="rounded-md p-1.5 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:text-foreground"
+            className="rounded-lg p-1.5 text-white/20 opacity-0 transition-all group-hover:opacity-100 hover:text-white/50"
           >
-            <ArrowUpRight size={16} />
+            <ArrowUpRight size={14} />
           </Link>
         </div>
-        <div className="mt-4 flex items-center gap-3">
-          <Badge variant="secondary" className="text-xs">
+        <div className="mt-3 flex items-center gap-3">
+          <Badge
+            variant="secondary"
+            className="rounded-md border-white/[0.08] bg-white/[0.04] text-[10px] text-white/50"
+          >
             {stageLabels[project.stage] || project.stage}
           </Badge>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Calendar size={12} />
+          <div className="flex items-center gap-1 text-[11px] text-white/25">
+            <Calendar size={10} />
             {formatDate(project.createdAt)}
           </div>
         </div>

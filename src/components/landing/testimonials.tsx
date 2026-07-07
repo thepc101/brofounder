@@ -1,33 +1,40 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import { TrendingUp, Users, Rocket, Zap } from "lucide-react";
 
-const testimonials = [
+const stats = [
   {
-    quote: "brofounder helped me validate my idea in 2 days instead of 2 months. The market research alone saved me weeks of work.",
-    name: "Alex Chen",
-    title: "Founder & CEO",
-    company: "RapidScale",
-    badge: "YC W24",
-    rating: 5,
+    icon: Users,
+    value: "2,847",
+    label: "Active Founders",
+    description: "Building right now",
   },
   {
-    quote: "I've used every AI tool out there. brofounder is the only one that actually understands startup building, not just generating text.",
-    name: "Sarah Miller",
-    title: "Co-Founder",
-    company: "PayFlow",
-    badge: "Techstars '23",
-    rating: 5,
+    icon: Rocket,
+    value: "312",
+    label: "MVPs Launched",
+    description: "In the last 90 days",
   },
   {
-    quote: "The MVP planner feature is worth its weight in gold. It helped us prioritize features that actually mattered for launch.",
-    name: "Marcus Johnson",
-    title: "CTO",
-    company: "DataBridge",
-    badge: "500 Global",
-    rating: 5,
+    icon: TrendingUp,
+    value: "$4.2M",
+    label: "Revenue Generated",
+    description: "By our users",
   },
+  {
+    icon: Zap,
+    value: "18,400+",
+    label: "Ideas Validated",
+    description: "And counting",
+  },
+];
+
+const logos = [
+  { name: "Y Combinator", src: "/logos/yc.svg" },
+  { name: "Techstars", src: "/logos/techstars.svg" },
+  { name: "500 Global", src: "/logos/500.svg" },
+  { name: "Seedcamp", src: "/logos/seedcamp.svg" },
 ];
 
 export default function Testimonials() {
@@ -42,57 +49,71 @@ export default function Testimonials() {
           className="mx-auto max-w-2xl text-center"
         >
           <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Testimonials
+            Traction
           </p>
           <h2
             className="text-4xl font-normal tracking-tight sm:text-5xl"
             style={{ fontFamily: "var(--font-display-face)" }}
           >
-            Loved by founders
+            Real founders, real results
           </h2>
           <p className="mt-4 text-base text-muted-foreground">
-            Join thousands of founders building with brofounder.
+            Numbers that speak louder than words.
           </p>
         </motion.div>
 
-        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {testimonials.map((testimonial, i) => (
+        <div className="mt-16 grid grid-cols-2 gap-6 lg:grid-cols-4">
+          {stats.map((stat, i) => (
             <motion.div
-              key={i}
+              key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="group rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 transition-colors hover:border-white/[0.12]"
+              className="group rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 text-center transition-colors hover:border-white/[0.12]"
             >
-              {/* Stars */}
-              <div className="mb-4 flex gap-0.5">
-                {Array.from({ length: testimonial.rating }).map((_, j) => (
-                  <Star key={j} size={12} className="fill-foreground/60 text-foreground/60" />
-                ))}
+              <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
+                <stat.icon size={18} className="text-foreground/70" />
               </div>
-
-              <Quote size={16} className="mb-3 text-white/20" />
-              <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
-                &ldquo;{testimonial.quote}&rdquo;
+              <p
+                className="text-3xl font-normal tracking-tight sm:text-4xl"
+                style={{ fontFamily: "var(--font-display-face)" }}
+              >
+                {stat.value}
               </p>
-              <div className="border-t border-white/[0.06] pt-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium">{testimonial.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {testimonial.title}, {testimonial.company}
-                    </p>
-                  </div>
-                  <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-0.5 text-[10px] text-muted-foreground">
-                    {testimonial.badge}
-                  </span>
-                </div>
-              </div>
+              <p className="mt-1 text-sm font-medium">{stat.label}</p>
+              <p className="text-xs text-muted-foreground">{stat.description}</p>
             </motion.div>
           ))}
         </div>
+
+        {/* Founder logos section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-20"
+        >
+          <p className="mb-8 text-center text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Featured in
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-12">
+            {logos.map((logo) => (
+              <div
+                key={logo.name}
+                className="flex h-14 w-36 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] p-3"
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="h-full w-auto object-contain opacity-40 grayscale transition-all hover:opacity-70 hover:grayscale-0"
+                />
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

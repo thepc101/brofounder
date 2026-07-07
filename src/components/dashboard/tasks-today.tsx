@@ -20,37 +20,37 @@ export function TasksToday() {
   const displayTasks = tasks.length > 0 ? tasks : defaultTasks;
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center justify-between text-sm font-medium">
+    <Card className="border-white/[0.06] bg-white/[0.02]">
+      <CardHeader className="pb-2 pt-4 px-4">
+        <CardTitle className="flex items-center justify-between text-[13px] font-medium text-white/60">
           Today's Tasks
-          <span className="text-xs text-muted-foreground">
+          <span className="text-[10px] text-white/25">
             {displayTasks.filter((t) => t.completed).length}/{displayTasks.length}
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
+      <CardContent className="px-4 pb-4">
+        <div className="space-y-2">
           {displayTasks.slice(0, 6).map((task) => (
             <label
               key={task.id}
-              className="flex items-start gap-3 cursor-pointer group"
+              className="flex items-start gap-2.5 cursor-pointer group"
             >
               <Checkbox
                 checked={task.completed}
                 onCheckedChange={() => toggleTask(task.id)}
-                className="mt-0.5"
+                className="mt-0.5 border-white/[0.15] data-[state=checked]:bg-white/20"
               />
               <span
                 className={cn(
-                  "text-sm transition-all",
-                  task.completed && "text-muted-foreground line-through"
+                  "text-[13px] transition-all",
+                  task.completed ? "text-white/20 line-through" : "text-white/50"
                 )}
               >
                 {task.title}
               </span>
               {task.priority === "high" && !task.completed && (
-                <span className="ml-auto shrink-0 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] text-destructive">
+                <span className="ml-auto shrink-0 rounded bg-red-500/10 px-1.5 py-0.5 text-[9px] text-red-400/60">
                   High
                 </span>
               )}

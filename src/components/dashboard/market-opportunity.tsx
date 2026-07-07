@@ -8,48 +8,48 @@ export function MarketOpportunity() {
   const research = useStore((s) => s.marketResearch);
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-sm font-medium">Market Opportunity</CardTitle>
+    <Card className="border-white/[0.06] bg-white/[0.02]">
+      <CardHeader className="pb-2 pt-4 px-4">
+        <CardTitle className="text-[13px] font-medium text-white/60">Market Opportunity</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 pb-4">
         {research ? (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-lg border border-border p-3">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
-                  <Target size={12} />
-                  TAM
-                </div>
-                <p className="text-sm font-semibold truncate">{research.tam}</p>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="rounded-lg border border-white/[0.04] bg-white/[0.02] p-2.5">
+              <div className="flex items-center gap-1 text-[10px] text-white/25">
+                <Target size={10} />
+                TAM
               </div>
-              <div className="rounded-lg border border-border p-3">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
-                  <TrendingUp size={12} />
-                  SAM
-                </div>
-                <p className="text-sm font-semibold truncate">{research.sam}</p>
+              <p className="mt-1 truncate text-[13px] font-medium text-white/60">{research.tam}</p>
+            </div>
+            <div className="rounded-lg border border-white/[0.04] bg-white/[0.02] p-2.5">
+              <div className="flex items-center gap-1 text-[10px] text-white/25">
+                <TrendingUp size={10} />
+                SAM
               </div>
-              <div className="rounded-lg border border-border p-3">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
-                  <DollarSign size={12} />
-                  SOM
-                </div>
-                <p className="text-sm font-semibold truncate">{research.som}</p>
+              <p className="mt-1 truncate text-[13px] font-medium text-white/60">{research.sam}</p>
+            </div>
+            <div className="rounded-lg border border-white/[0.04] bg-white/[0.02] p-2.5">
+              <div className="flex items-center gap-1 text-[10px] text-white/25">
+                <DollarSign size={10} />
+                SOM
               </div>
-              <div className="rounded-lg border border-border p-3">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
-                  <BarChart3 size={12} />
-                  Trends
-                </div>
-                <p className="text-sm font-semibold truncate">{research.trends.length}</p>
+              <p className="mt-1 truncate text-[13px] font-medium text-white/60">{research.som}</p>
+            </div>
+            <div className="rounded-lg border border-white/[0.04] bg-white/[0.02] p-2.5">
+              <div className="flex items-center gap-1 text-[10px] text-white/25">
+                <BarChart3 size={10} />
+                Trends
               </div>
+              <p className="mt-1 truncate text-[13px] font-medium text-white/60">
+                {research.trends.length} identified
+              </p>
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-center py-8">
-            <TrendingUp size={24} className="text-muted-foreground mb-2" />
-            <p className="text-sm text-muted-foreground">No research yet</p>
+            <TrendingUp size={20} className="text-white/10" />
+            <p className="mt-2 text-[13px] text-white/20">No research yet</p>
           </div>
         )}
       </CardContent>
