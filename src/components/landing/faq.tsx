@@ -36,21 +36,28 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="border-b border-border py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="relative z-10 border-b border-border/50 py-24">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight">
+          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            FAQ
+          </p>
+          <h2
+            className="text-4xl font-normal tracking-tight sm:text-5xl"
+            style={{ fontFamily: "var(--font-display-face)" }}
+          >
             Frequently asked questions
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-base text-muted-foreground">
             Everything you need to know about brofounder.
           </p>
         </div>
+
         <div className="mx-auto mt-16 max-w-2xl">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-left text-sm font-medium">
+              <AccordionItem key={i} value={`item-${i}`} className="border-border/40">
+                <AccordionTrigger className="text-left text-sm font-medium hover:no-underline hover:text-foreground">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-muted-foreground">

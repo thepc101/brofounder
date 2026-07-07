@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <!-- Hexagonal B icon -->
+  <g transform="translate(10, 5)">
+    <!-- Outer hexagon -->
+    <path d="M25 0L50 14.43V43.3L25 57.74L0 43.3V14.43L25 0Z" stroke="white" stroke-width="1.5" fill="none" opacity="0.9"/>
+    <!-- Inner B shape -->
+    <path d="M18 15H30C35.5 15 39 18.5 39 23C39 26.5 37 29.5 34 30.5C37.5 31.5 40 34.5 40 38C40 43 36 46.5 30 46.5H18V15ZM25 21V27H28C30.5 27 32 25.5 32 24C32 22.5 30.5 21 28 21H25ZM25 33V39.5H29C31.5 39.5 33 38 33 36.5C33 35 31.5 33 29 33H25Z" fill="white" opacity="0.85"/>
+  </g>
+  <!-- BROFOUNDER text -->
+  <text x="72" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="600" letter-spacing="3" fill="white" opacity="0.9">BROFOUNDER</text>
+</svg>

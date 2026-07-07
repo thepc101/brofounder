@@ -1,5 +1,6 @@
 import Header from "@/components/landing/header";
 import Hero from "@/components/landing/hero";
+import { TrustBar } from "@/components/landing/trust-bar";
 import Features from "@/components/landing/features";
 import Preview from "@/components/landing/preview";
 import Testimonials from "@/components/landing/testimonials";
@@ -12,6 +13,7 @@ export default function LandingPage() {
       <Header />
       <main className="flex-1">
         <Hero />
+        <TrustBar />
         <Features />
         <Preview />
         <Testimonials />

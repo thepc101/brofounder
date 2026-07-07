@@ -1,18 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const instrumentalSerif = Instrument_Serif({
+  variable: "--font-display-face",
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
+
+const geistMono = {
+  variable: "--font-geist-mono",
+};
 
 export const metadata: Metadata = {
   title: "brofounder - Your AI Co-Founder",
@@ -28,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark`}
+      className={`${instrumentalSerif.variable} ${inter.variable} dark`}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-background font-sans antialiased">
@@ -43,9 +50,9 @@ export default function RootLayout({
             position="bottom-right"
             toastOptions={{
               style: {
-                background: "var(--card)",
-                color: "var(--card-foreground)",
-                border: "1px solid var(--border)",
+                background: "hsl(var(--card))",
+                color: "hsl(var(--card-foreground))",
+                border: "1px solid hsl(var(--border))",
               },
             }}
           />

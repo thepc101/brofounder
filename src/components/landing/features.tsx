@@ -25,52 +25,56 @@ const features = [
   { icon: DollarSign, title: "Pricing Strategy", description: "Data-driven pricing recommendations based on market positioning and value metrics." },
   { icon: Layout, title: "Landing Page Generator", description: "High-converting landing page copy with positioning, taglines, and SEO optimization." },
   { icon: Megaphone, title: "Marketing Planner", description: "Full go-to-market strategy with content calendars, social posts, and launch campaigns." },
-  { icon: Presentation, title: "Investor Pitch Builder", description: "Comprehensive pitch decks, investor summaries, and fundraising strategy." },
+  { icon: Presentation, title: "Pitch Builder", description: "Comprehensive pitch decks, investor summaries, and fundraising strategy." },
   { icon: CheckCircle2, title: "Launch Checklist", description: "Step-by-step launch playbook from pre-launch to post-launch growth." },
 ];
 
-const containerVariants = {
+const container = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+const item = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
 };
 
 export default function Features() {
   return (
-    <section id="features" className="border-b border-border py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="features" className="relative z-10 border-b border-border/50 py-24">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Capabilities
+          </p>
+          <h2
+            className="text-4xl font-normal tracking-tight sm:text-5xl"
+            style={{ fontFamily: "var(--font-display-face)" }}
+          >
             Everything you need to build
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-base text-muted-foreground">
             From idea validation to launch — your AI co-founder handles the heavy lifting.
           </p>
         </div>
+
         <motion.div
-          variants={containerVariants}
+          variants={container}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
           className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
           {features.map((feature) => (
             <motion.div
               key={feature.title}
-              variants={cardVariants}
-              className="group rounded-lg border border-border bg-card p-5 transition-all hover:border-muted-foreground/20 hover:shadow-sm"
+              variants={item}
+              className="group rounded-xl border border-border/60 bg-card/30 p-5 transition-all duration-200 hover:border-border hover:bg-card/50"
             >
-              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-md border border-border bg-accent">
+              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 bg-accent/50">
                 <feature.icon size={16} className="text-foreground" />
               </div>
-              <h3 className="mb-1.5 text-sm font-semibold">{feature.title}</h3>
+              <h3 className="mb-1.5 text-sm font-medium">{feature.title}</h3>
               <p className="text-xs leading-relaxed text-muted-foreground">
                 {feature.description}
               </p>

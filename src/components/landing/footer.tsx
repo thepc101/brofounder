@@ -1,28 +1,40 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const footerLinks = {
-  Product: ["Features", "Research", "Pricing", "FAQ"].map((name) => ({
-    name,
-    href: name === "FAQ" ? "#faq" : `#${name.toLowerCase()}`,
-  })),
-  Company: ["About", "Blog", "Careers", "Contact"].map((name) => ({
-    name,
-    href: "#",
-  })),
-  Legal: ["Privacy", "Terms", "License"].map((name) => ({
-    name,
-    href: "#",
-  })),
+  Product: [
+    { name: "Features", href: "#features" },
+    { name: "Research", href: "#preview" },
+    { name: "Pricing", href: "#" },
+    { name: "FAQ", href: "#faq" },
+  ],
+  Company: [
+    { name: "About", href: "#" },
+    { name: "Blog", href: "#" },
+    { name: "Careers", href: "#" },
+    { name: "Contact", href: "#" },
+  ],
+  Legal: [
+    { name: "Privacy", href: "#" },
+    { name: "Terms", href: "#" },
+    { name: "License", href: "#" },
+  ],
 };
 
 export default function Footer() {
   return (
-    <footer className="py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <footer className="relative z-10 py-16">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
-            <span className="text-lg font-semibold tracking-tight">brofounder</span>
-            <p className="mt-3 text-sm text-muted-foreground">
+            <Image
+              src="/logo.svg"
+              alt="brofounder"
+              width={120}
+              height={32}
+              className="mb-3 brightness-0 invert opacity-60"
+            />
+            <p className="text-sm text-muted-foreground">
               Your AI co-founder.
               <br />
               From idea to launch.
@@ -46,7 +58,8 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
+
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-8 sm:flex-row">
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} brofounder. All rights reserved.
           </p>
