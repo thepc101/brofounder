@@ -3,7 +3,6 @@ import { persist } from "zustand/middleware";
 import type {
   OnboardingData,
   Project,
-  WorkspaceMessage,
   WorkspaceSection,
   ValidationResult,
   MarketResearch,
@@ -16,16 +15,25 @@ import type {
   Document,
   Activity,
   Task,
-  DashboardData,
 } from "@/types";
 import { generateId } from "./utils";
+import type { AgentMessage } from "@/lib/agent/agent";
+
+export interface ChatConversation {
+  id: string;
+  title: string;
+  messages: AgentMessage[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type AISettingsQuality = "high" | "medium" | "low";
 
 interface AppState {
   // Auth
   isAuthenticated: boolean;
   user: { name: string; email: string; avatar?: string } | null;
   setAuth: (user: { name: string; email: string; avatar?: string }) => void;
-  hydrateFromSupabase: (user: { name: string; email: string; avatar?: string }) => void;
   logout: () => void;
 
   // Onboarding
@@ -42,14 +50,25 @@ interface AppState {
   setProject: (project: Project) => void;
 
   // Workspace
-  workspaceMessages: WorkspaceMessage[];
   workspaceSections: WorkspaceSection[];
-  isGenerating: boolean;
-  addWorkspaceMessage: (message: WorkspaceMessage) => void;
   setWorkspaceSections: (sections: WorkspaceSection[]) => void;
   updateWorkspaceSection: (id: string, content: string) => void;
-  setIsGenerating: (generating: boolean) => void;
-  clearWorkspace: () => void;
+
+  // Chat History
+  conversations: ChatConversation[];
+  activeConversationId: string | null;
+  createConversation: () => string;
+  setActiveConversation: (id: string) => void;
+  updateConversation: (id: string, messages: AgentMessage[]) => void;
+  deleteConversation: (id: string) => void;
+  renameConversation: (id: string, title: string) => void;
+  getActiveConversation: () => ChatConversation | null;
+
+  // AI Settings
+  aiQuality: AISettingsQuality;
+  setAiQuality: (quality: AISettingsQuality) => void;
+  aiProvider: string;
+  setAiProvider: (provider: string) => void;
 
   // Research
   marketResearch: MarketResearch | null;
@@ -94,8 +113,6 @@ interface AppState {
   // UI
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
-  commandPaletteOpen: boolean;
-  setCommandPaletteOpen: (open: boolean) => void;
 }
 
 const defaultOnboardingData: OnboardingData = {
@@ -120,7 +137,6 @@ export const useStore = create<AppState>()(
       isAuthenticated: false,
       user: null,
       setAuth: (user) => set({ isAuthenticated: true, user }),
-      hydrateFromSupabase: (user) => set({ isAuthenticated: true, user }),
       logout: () => set({ isAuthenticated: false, user: null }),
 
       // Onboarding
@@ -128,40 +144,70 @@ export const useStore = create<AppState>()(
       onboardingStep: 0,
       onboardingComplete: false,
       setOnboardingData: (data) =>
-        set((state) => ({
-          onboardingData: { ...state.onboardingData, ...data },
-        })),
+        set((state) => ({ onboardingData: { ...state.onboardingData, ...data } })),
       setOnboardingStep: (step) => set({ onboardingStep: step }),
       completeOnboarding: () => set({ onboardingComplete: true, onboardingStep: 0 }),
-      resetOnboarding: () =>
-        set({
-          onboardingData: defaultOnboardingData,
-          onboardingStep: 0,
-          onboardingComplete: false,
-        }),
+      resetOnboarding: () => set({ onboardingData: defaultOnboardingData, onboardingStep: 0, onboardingComplete: false }),
 
       // Project
       project: null,
       setProject: (project) => set({ project }),
 
       // Workspace
-      workspaceMessages: [],
       workspaceSections: [],
-      isGenerating: false,
-      addWorkspaceMessage: (message) =>
-        set((state) => ({
-          workspaceMessages: [...state.workspaceMessages, message],
-        })),
       setWorkspaceSections: (sections) => set({ workspaceSections: sections }),
       updateWorkspaceSection: (id, content) =>
         set((state) => ({
-          workspaceSections: state.workspaceSections.map((s) =>
-            s.id === id ? { ...s, content } : s
-          ),
+          workspaceSections: state.workspaceSections.map((s) => s.id === id ? { ...s, content } : s),
         })),
-      setIsGenerating: (generating) => set({ isGenerating: generating }),
-      clearWorkspace: () =>
-        set({ workspaceMessages: [], workspaceSections: [] }),
+
+      // Chat History
+      conversations: [],
+      activeConversationId: null,
+      createConversation: () => {
+        const id = generateId();
+        const conv: ChatConversation = {
+          id,
+          title: "New conversation",
+          messages: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        set((state) => ({
+          conversations: [conv, ...state.conversations],
+          activeConversationId: id,
+        }));
+        return id;
+      },
+      setActiveConversation: (id) => set({ activeConversationId: id }),
+      updateConversation: (id, messages) =>
+        set((state) => ({
+          conversations: state.conversations.map((c) => {
+            if (c.id !== id) return c;
+            const firstUserMsg = messages.find((m) => m.role === "user");
+            const title = firstUserMsg?.content.slice(0, 60) || c.title;
+            return { ...c, messages, title, updatedAt: new Date().toISOString() };
+          }),
+        })),
+      deleteConversation: (id) =>
+        set((state) => ({
+          conversations: state.conversations.filter((c) => c.id !== id),
+          activeConversationId: state.activeConversationId === id ? null : state.activeConversationId,
+        })),
+      renameConversation: (id, title) =>
+        set((state) => ({
+          conversations: state.conversations.map((c) => c.id === id ? { ...c, title } : c),
+        })),
+      getActiveConversation: () => {
+        const state = get();
+        return state.conversations.find((c) => c.id === state.activeConversationId) || null;
+      },
+
+      // AI Settings
+      aiQuality: "medium" as AISettingsQuality,
+      setAiQuality: (quality) => set({ aiQuality: quality }),
+      aiProvider: "groq",
+      setAiProvider: (provider) => set({ aiProvider: provider }),
 
       // Research
       marketResearch: null,
@@ -191,13 +237,10 @@ export const useStore = create<AppState>()(
 
       // Documents
       documents: [],
-      addDocument: (doc) =>
-        set((state) => ({ documents: [...state.documents, doc] })),
+      addDocument: (doc) => set((state) => ({ documents: [...state.documents, doc] })),
       updateDocument: (id, data) =>
         set((state) => ({
-          documents: state.documents.map((d) =>
-            d.id === id ? { ...d, ...data } : d
-          ),
+          documents: state.documents.map((d) => d.id === id ? { ...d, ...data } : d),
         })),
 
       // Activity
@@ -209,20 +252,15 @@ export const useStore = create<AppState>()(
 
       // Tasks
       tasks: [],
-      addTask: (task) =>
-        set((state) => ({ tasks: [...state.tasks, task] })),
+      addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
       toggleTask: (id) =>
         set((state) => ({
-          tasks: state.tasks.map((t) =>
-            t.id === id ? { ...t, completed: !t.completed } : t
-          ),
+          tasks: state.tasks.map((t) => t.id === id ? { ...t, completed: !t.completed } : t),
         })),
 
       // UI
       sidebarOpen: true,
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
-      commandPaletteOpen: false,
-      setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
     }),
     {
       name: "brofounder-store",
@@ -233,8 +271,11 @@ export const useStore = create<AppState>()(
         onboardingStep: state.onboardingStep,
         onboardingComplete: state.onboardingComplete,
         project: state.project,
-        workspaceMessages: state.workspaceMessages,
         workspaceSections: state.workspaceSections,
+        conversations: state.conversations,
+        activeConversationId: state.activeConversationId,
+        aiQuality: state.aiQuality,
+        aiProvider: state.aiProvider,
         marketResearch: state.marketResearch,
         competitors: state.competitors,
         swot: state.swot,
@@ -246,6 +287,7 @@ export const useStore = create<AppState>()(
         documents: state.documents,
         activities: state.activities,
         tasks: state.tasks,
+        sidebarOpen: state.sidebarOpen,
       }),
     }
   )

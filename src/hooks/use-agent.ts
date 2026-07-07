@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useStore } from "@/lib/store";
 import { generateId } from "@/lib/utils";
 import type { AgentMessage, AgentResponse } from "@/lib/agent/agent";
@@ -14,6 +14,10 @@ export function useAgent() {
 
   const project = useStore((s) => s.project);
   const onboardingData = useStore((s) => s.onboardingData);
+  const aiQuality = useStore((s) => s.aiQuality);
+  const conversations = useStore((s) => s.conversations);
+  const activeConversationId = useStore((s) => s.activeConversationId);
+  const updateConversation = useStore((s) => s.updateConversation);
 
   const context = {
     projectName: project?.name,
@@ -22,6 +26,27 @@ export function useAgent() {
     stage: project?.stage,
     onboardingData,
   };
+
+  // Load messages from active conversation
+  useEffect(() => {
+    if (activeConversationId) {
+      const conv = conversations.find((c) => c.id === activeConversationId);
+      if (conv) {
+        setMessages(conv.messages);
+      }
+    } else {
+      setMessages([]);
+    }
+  }, [activeConversationId, conversations]);
+
+  const saveMessages = useCallback(
+    (newMessages: AgentMessage[]) => {
+      if (activeConversationId) {
+        updateConversation(activeConversationId, newMessages);
+      }
+    },
+    [activeConversationId, updateConversation]
+  );
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -36,9 +61,15 @@ export function useAgent() {
         timestamp: new Date().toISOString(),
       };
 
-      setMessages((prev) => [...prev, userMsg]);
+      const newMessages = [...messages, userMsg];
+      setMessages(newMessages);
       setIsThinking(true);
       setCurrentToolCall("Thinking...");
+
+      // Save user message immediately
+      if (activeConversationId) {
+        updateConversation(activeConversationId, newMessages);
+      }
 
       try {
         abortRef.current = new AbortController();
@@ -50,6 +81,7 @@ export function useAgent() {
             message: content,
             history: messages,
             context,
+            quality: aiQuality,
           }),
           signal: abortRef.current.signal,
         });
@@ -60,7 +92,9 @@ export function useAgent() {
 
         const data: AgentResponse = await response.json();
 
-        // Add tool call messages
+        let allNew = [...newMessages];
+
+        // Add tool call/result messages
         for (const tc of data.toolCalls) {
           const toolCallMsg: AgentMessage = {
             id: generateId(),
@@ -69,7 +103,7 @@ export function useAgent() {
             toolCall: { name: tc.name, args: tc.args },
             timestamp: new Date().toISOString(),
           };
-          setMessages((prev) => [...prev, toolCallMsg]);
+          allNew = [...allNew, toolCallMsg];
 
           const toolResultMsg: AgentMessage = {
             id: generateId(),
@@ -79,7 +113,7 @@ export function useAgent() {
             toolResult: tc.result,
             timestamp: new Date().toISOString(),
           };
-          setMessages((prev) => [...prev, toolResultMsg]);
+          allNew = [...allNew, toolResultMsg];
         }
 
         // Add assistant response
@@ -89,7 +123,14 @@ export function useAgent() {
           content: data.message,
           timestamp: new Date().toISOString(),
         };
-        setMessages((prev) => [...prev, assistantMsg]);
+        allNew = [...allNew, assistantMsg];
+
+        setMessages(allNew);
+
+        // Save all messages
+        if (activeConversationId) {
+          updateConversation(activeConversationId, allNew);
+        }
       } catch (err: any) {
         if (err.name !== "AbortError") {
           setError(err.message || "Something went wrong");
@@ -99,7 +140,11 @@ export function useAgent() {
             content: "I encountered an error. Please try again.",
             timestamp: new Date().toISOString(),
           };
-          setMessages((prev) => [...prev, errorMsg]);
+          const errorMessages = [...newMessages, errorMsg];
+          setMessages(errorMessages);
+          if (activeConversationId) {
+            updateConversation(activeConversationId, errorMessages);
+          }
         }
       } finally {
         setIsThinking(false);
@@ -107,7 +152,7 @@ export function useAgent() {
         abortRef.current = null;
       }
     },
-    [messages, isThinking, context]
+    [messages, isThinking, context, aiQuality, activeConversationId, updateConversation]
   );
 
   const clearMessages = useCallback(() => {

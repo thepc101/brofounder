@@ -16,21 +16,20 @@ const defaultTasks = [
 export function TasksToday() {
   const tasks = useStore((s) => s.tasks);
   const toggleTask = useStore((s) => s.toggleTask);
-
   const displayTasks = tasks.length > 0 ? tasks : defaultTasks;
 
   return (
-    <Card className="border-white/[0.06] bg-white/[0.02]">
+    <Card className="border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
       <CardHeader className="pb-2 pt-4 px-4">
-        <CardTitle className="flex items-center justify-between text-[13px] font-medium text-white/60">
+        <CardTitle className="flex items-center justify-between text-[13px] font-medium text-white/55">
           Today's Tasks
-          <span className="text-[10px] text-white/25">
+          <span className="text-[10px] font-normal text-white/25">
             {displayTasks.filter((t) => t.completed).length}/{displayTasks.length}
           </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="px-4 pb-4">
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {displayTasks.slice(0, 6).map((task) => (
             <label
               key={task.id}
@@ -39,7 +38,7 @@ export function TasksToday() {
               <Checkbox
                 checked={task.completed}
                 onCheckedChange={() => toggleTask(task.id)}
-                className="mt-0.5 border-white/[0.15] data-[state=checked]:bg-white/20"
+                className="mt-0.5 border-white/[0.12] data-[state=checked]:bg-blue-500/20 data-[state=checked]:border-blue-500/30"
               />
               <span
                 className={cn(
@@ -50,7 +49,7 @@ export function TasksToday() {
                 {task.title}
               </span>
               {task.priority === "high" && !task.completed && (
-                <span className="ml-auto shrink-0 rounded bg-red-500/10 px-1.5 py-0.5 text-[9px] text-red-400/60">
+                <span className="ml-auto shrink-0 rounded-md bg-red-500/10 px-1.5 py-0.5 text-[9px] font-medium text-red-400/50">
                   High
                 </span>
               )}
