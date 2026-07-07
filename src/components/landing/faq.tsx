@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
@@ -36,9 +37,15 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="relative z-10 border-b border-border/50 py-24">
+    <section id="faq" className="relative z-10 py-28">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto max-w-2xl text-center"
+        >
           <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
             FAQ
           </p>
@@ -51,22 +58,28 @@ export default function FAQ() {
           <p className="mt-4 text-base text-muted-foreground">
             Everything you need to know about brofounder.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="mx-auto mt-16 max-w-2xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mx-auto mt-16 max-w-2xl"
+        >
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="border-border/40">
-                <AccordionTrigger className="text-left text-sm font-medium hover:no-underline hover:text-foreground">
+              <AccordionItem key={i} value={`item-${i}`} className="border-white/[0.06]">
+                <AccordionTrigger className="text-left text-sm font-medium hover:no-underline hover:text-foreground py-4">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground">
+                <AccordionContent className="text-sm text-muted-foreground pb-4">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -4,7 +4,7 @@ import Link from "next/link";
 const footerLinks = {
   Product: [
     { name: "Features", href: "#features" },
-    { name: "Research", href: "#preview" },
+    { name: "Product", href: "#preview" },
     { name: "Pricing", href: "#" },
     { name: "FAQ", href: "#faq" },
   ],
@@ -23,7 +23,7 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 py-16">
+    <footer className="relative z-10 border-t border-white/[0.06] py-16">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
@@ -32,7 +32,7 @@ export default function Footer() {
               alt="brofounder"
               width={120}
               height={32}
-              className="mb-3 brightness-0 invert opacity-60"
+              className="mb-4 brightness-0 invert opacity-50"
             />
             <p className="text-sm text-muted-foreground">
               Your AI co-founder.
@@ -59,7 +59,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-8 sm:flex-row">
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-8 sm:flex-row">
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} brofounder. All rights reserved.
           </p>

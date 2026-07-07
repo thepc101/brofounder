@@ -7,9 +7,11 @@ import { ArrowLeft, Mail, Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
 export default function ForgotPasswordPage() {
+  const supabase = createClient();
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,10 +19,17 @@ export default function ForgotPasswordPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setSent(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
+      });
+      if (error) throw error;
+      setSent(true);
+      toast.success("Reset link sent to your email");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to send reset link");
+    }
     setLoading(false);
-    toast.success("Reset link sent to your email");
   };
 
   return (
@@ -75,10 +84,7 @@ export default function ForgotPasswordPage() {
       )}
 
       <div className="mt-6 text-center">
-        <Link
-          href="/login"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-        >
+        <Link href="/login" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft size={14} />
           Back to sign in
         </Link>

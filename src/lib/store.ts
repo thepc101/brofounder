@@ -25,6 +25,7 @@ interface AppState {
   isAuthenticated: boolean;
   user: { name: string; email: string; avatar?: string } | null;
   setAuth: (user: { name: string; email: string; avatar?: string }) => void;
+  hydrateFromSupabase: (user: { name: string; email: string; avatar?: string }) => void;
   logout: () => void;
 
   // Onboarding
@@ -119,6 +120,7 @@ export const useStore = create<AppState>()(
       isAuthenticated: false,
       user: null,
       setAuth: (user) => set({ isAuthenticated: true, user }),
+      hydrateFromSupabase: (user) => set({ isAuthenticated: true, user }),
       logout: () => set({ isAuthenticated: false, user: null }),
 
       // Onboarding

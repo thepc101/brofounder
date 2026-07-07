@@ -2,17 +2,8 @@
 
 import { motion } from "framer-motion";
 import {
-  Lightbulb,
-  Search,
-  Crosshair,
-  Users,
-  Map,
-  Rocket,
-  DollarSign,
-  Layout,
-  Megaphone,
-  Presentation,
-  CheckCircle2,
+  Lightbulb, Search, Crosshair, Users, Map, Rocket,
+  DollarSign, Layout, Megaphone, Presentation, CheckCircle2,
 } from "lucide-react";
 
 const features = [
@@ -29,21 +20,17 @@ const features = [
   { icon: CheckCircle2, title: "Launch Checklist", description: "Step-by-step launch playbook from pre-launch to post-launch growth." },
 ];
 
-const container = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.04 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
-};
-
 export default function Features() {
   return (
-    <section id="features" className="relative z-10 border-b border-border/50 py-24">
+    <section id="features" className="relative z-10 py-28">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto max-w-2xl text-center"
+        >
           <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Capabilities
           </p>
@@ -56,31 +43,29 @@ export default function Features() {
           <p className="mt-4 text-base text-muted-foreground">
             From idea validation to launch — your AI co-founder handles the heavy lifting.
           </p>
-        </div>
+        </motion.div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        >
-          {features.map((feature) => (
+        <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {features.map((feature, i) => (
             <motion.div
               key={feature.title}
-              variants={item}
-              className="group rounded-xl border border-border/60 bg-card/30 p-5 transition-all duration-200 hover:border-border hover:bg-card/50"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: i * 0.04 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="group cursor-default rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 transition-colors hover:border-white/[0.12] hover:bg-white/[0.04]"
             >
-              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 bg-accent/50">
-                <feature.icon size={16} className="text-foreground" />
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03] transition-colors group-hover:border-white/[0.15]">
+                <feature.icon size={18} className="text-foreground/70" />
               </div>
-              <h3 className="mb-1.5 text-sm font-medium">{feature.title}</h3>
-              <p className="text-xs leading-relaxed text-muted-foreground">
+              <h3 className="mb-2 text-sm font-medium">{feature.title}</h3>
+              <p className="text-[13px] leading-relaxed text-muted-foreground">
                 {feature.description}
               </p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

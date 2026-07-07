@@ -9,9 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OAuthButtons } from "./oauth-buttons";
-import { useStore } from "@/lib/store";
+import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
 interface AuthFormProps {
   mode: "login" | "signup";
@@ -19,30 +18,41 @@ interface AuthFormProps {
 
 export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
-  const setAuth = useStore((s) => s.setAuth);
+  const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate auth
-    await new Promise((r) => setTimeout(r, 1000));
+    try {
+      if (mode === "signup") {
+        const { error } = await supabase.auth.signUp({
+          email: form.email,
+          password: form.password,
+          options: {
+            data: { full_name: form.name },
+          },
+        });
+        if (error) throw error;
+        toast.success("Account created! Check your email to verify.");
+        router.push("/onboarding");
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: form.email,
+          password: form.password,
+        });
+        if (error) throw error;
+        toast.success("Welcome back!");
+        router.push("/dashboard");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Something went wrong");
+    }
 
-    setAuth({
-      name: form.name || "Founder",
-      email: form.email,
-    });
-
-    toast.success(mode === "login" ? "Welcome back!" : "Account created!");
     setLoading(false);
-    router.push(mode === "login" ? "/dashboard" : "/onboarding");
   };
 
   return (
@@ -113,6 +123,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
+              minLength={6}
             />
             <button
               type="button"
@@ -126,10 +137,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
         {mode === "login" && (
           <div className="text-right">
-            <Link
-              href="/forgot-password"
-              className="text-xs text-muted-foreground hover:text-foreground"
-            >
+            <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
               Forgot password?
             </Link>
           </div>
@@ -144,10 +152,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-        <Link
-          href={mode === "login" ? "/signup" : "/login"}
-          className="font-medium text-foreground hover:underline"
-        >
+        <Link href={mode === "login" ? "/signup" : "/login"} className="font-medium text-foreground hover:underline">
           {mode === "login" ? "Sign up" : "Sign in"}
         </Link>
       </p>
