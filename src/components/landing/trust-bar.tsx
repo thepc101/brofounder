@@ -5,9 +5,10 @@ import Image from "next/image";
 
 const logos = [
   { name: "Y Combinator", src: "/logos/yc.svg" },
+  { name: "Stripe", src: "/logos/stripe.svg" },
   { name: "Techstars", src: "/logos/techstars.svg" },
-  { name: "500 Global", src: "/logos/500.svg" },
-  { name: "Seedcamp", src: "/logos/seedcamp.svg" },
+  { name: "Sequoia", src: "/logos/sequoia.svg" },
+  { name: "a16z", src: "/logos/a16z.svg" },
 ];
 
 export function TrustBar() {
