@@ -19,6 +19,14 @@ export interface ToolResult {
   summary: string;
 }
 
+interface BrowsedPageData {
+  title: string;
+  description: string;
+  headings: string[];
+  links?: { text: string; href: string }[];
+  bodyText?: string;
+}
+
 function extractTextFromHtml(html: string): string {
   return html
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
@@ -132,11 +140,12 @@ export const agentTools: AgentTool[] = [
         const query = args.query;
         if (!query) return { success: false, data: null, summary: "Error: No search query provided" };
 
-        const response = await fetch("https://api.search.brave.com/res/v1/web/search", {
+        const response = await fetch(`https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}`, {
           method: "GET",
           headers: {
             Accept: "application/json",
             "Accept-Encoding": "gzip",
+            ...(process.env.BRAVE_SEARCH_API_KEY ? { "X-Subscription-Token": process.env.BRAVE_SEARCH_API_KEY } : {}),
           },
           signal: AbortSignal.timeout(10000),
         }).catch(() => null);
@@ -522,6 +531,202 @@ export const agentTools: AgentTool[] = [
           bodyText: pageData.bodyText?.slice(0, 4000),
         },
         summary: `Analysis of ${args.url}: Title "${pageData.title}", ${wordCount} words, ${pageData.headings?.length || 0} headings, CTA present: ${hasCTA}`,
+      };
+    },
+  },
+
+  {
+    name: "inspect_webtab",
+    description:
+      "Inspect a URL the founder has opened in the in-app web tab. Use this for live page reviews, competitor teardown, pricing-page audits, SEO/conversion analysis, or turning a browsed page into action items.",
+    parameters: {
+      url: { type: "string", description: "The currently open web tab URL", required: true },
+      founder_goal: {
+        type: "string",
+        description: "What the founder wants to learn or accomplish from this tab",
+      },
+    },
+    execute: async (args, context) => {
+      const browseResult = await agentTools[0].execute({ url: args.url }, context);
+
+      if (!browseResult.success) {
+        return { success: false, data: null, summary: `Could not inspect web tab: ${browseResult.summary}` };
+      }
+
+      const pageData = browseResult.data as BrowsedPageData;
+      const lowerText = (pageData.bodyText || "").toLowerCase();
+      const conversionSignals = [
+        "free trial",
+        "book a demo",
+        "get started",
+        "pricing",
+        "customers",
+        "security",
+        "integrations",
+        "case study",
+      ].filter((signal) => lowerText.includes(signal));
+
+      return {
+        success: true,
+        data: {
+          url: args.url,
+          founderGoal: args.founder_goal || "General founder analysis",
+          title: pageData.title,
+          description: pageData.description,
+          headings: pageData.headings,
+          conversionSignals,
+          pageText: pageData.bodyText?.slice(0, 5000),
+          links: pageData.links?.slice(0, 20),
+        },
+        summary: `Inspected open tab ${args.url}. Title: "${pageData.title}". Conversion signals found: ${conversionSignals.join(", ") || "none obvious"}. Founder goal: ${args.founder_goal || "general analysis"}. Key headings: ${pageData.headings?.slice(0, 8).join(", ") || "none"}.`,
+      };
+    },
+  },
+
+  {
+    name: "design_growth_experiments",
+    description:
+      "Create a weekly growth experiment plan with channels, hypotheses, assets, metrics, and execution steps. Use this when a founder needs traction or launch momentum.",
+    parameters: {
+      product: { type: "string", description: "The product or startup", required: true },
+      audience: { type: "string", description: "Target customer or market", required: true },
+      goal: { type: "string", description: "Primary growth goal such as waitlist, demos, revenue, or activation" },
+    },
+    execute: async (args, context) => {
+      const research = await agentTools[1].execute(
+        {
+          query: `${args.product} ${args.audience} acquisition channels communities newsletters podcasts alternatives`,
+        },
+        context
+      );
+
+      return {
+        success: true,
+        data: {
+          product: args.product,
+          audience: args.audience,
+          goal: args.goal || "Generate qualified demand",
+          research: research.summary?.slice(0, 2500),
+          experiments: [
+            "Pain-led landing page test with one promise and one waitlist CTA",
+            "Competitor alternative page targeting high-intent search",
+            "Founder-led teardown post on LinkedIn, X, Reddit, and relevant communities",
+            "Concierge pilot outreach to 30 hand-picked buyers",
+            "Lead magnet or calculator that captures workflow-specific intent",
+          ],
+        },
+        summary: `Designed growth experiments for ${args.product}. Audience: ${args.audience}. Goal: ${args.goal || "qualified demand"}. Research context: ${research.summary?.slice(0, 1800)}`,
+      };
+    },
+  },
+
+  {
+    name: "audit_pricing",
+    description:
+      "Audit pricing and packaging for a startup. Combines competitor research with SaaS monetization strategy and returns plan options.",
+    parameters: {
+      product: { type: "string", description: "The product or startup", required: true },
+      competitors: { type: "string", description: "Comma-separated competitor names or URLs" },
+      target_customer: { type: "string", description: "Who buys the product" },
+    },
+    execute: async (args, context) => {
+      const query = `${args.product} pricing ${args.competitors || ""} alternatives plans`;
+      const research = await agentTools[1].execute({ query }, context);
+
+      return {
+        success: true,
+        data: {
+          product: args.product,
+          competitors: args.competitors || "Not provided",
+          targetCustomer: args.target_customer || context?.targetMarket || "Early customers",
+          research: research.summary?.slice(0, 2500),
+          packagingOptions: [
+            { plan: "Free", purpose: "Capture solo founders and prove activation", metric: "1 workspace, limited AI runs" },
+            { plan: "Founder Pro", purpose: "Monetize serious builders", metric: "More agent runs, exports, browser analysis" },
+            { plan: "Launch Room", purpose: "High-intent sprint buyers", metric: "Fixed-price 14-day launch workflow" },
+          ],
+        },
+        summary: `Pricing audit for ${args.product}. Suggested freemium wedge, paid founder plan, and launch-sprint package. Competitor research: ${research.summary?.slice(0, 1800)}`,
+      };
+    },
+  },
+
+  {
+    name: "build_launch_room",
+    description:
+      "Create a launch room for a startup: positioning, channels, checklist, assets, target communities, KPIs, and a 14-day execution calendar.",
+    parameters: {
+      product: { type: "string", description: "The product to launch", required: true },
+      audience: { type: "string", description: "The target audience", required: true },
+      launch_goal: { type: "string", description: "Desired outcome of launch" },
+    },
+    execute: async (args, context) => {
+      const research = await agentTools[1].execute(
+        { query: `${args.audience} communities product hunt reddit linkedin launch ${args.product}` },
+        context
+      );
+
+      return {
+        success: true,
+        data: {
+          product: args.product,
+          audience: args.audience,
+          launchGoal: args.launch_goal || "Generate first engaged users",
+          launchAssets: [
+            "One-line positioning",
+            "Launch post",
+            "Demo GIF script",
+            "Founder story thread",
+            "Customer proof checklist",
+            "Follow-up email sequence",
+          ],
+          calendar: [
+            "Days 1-2: tighten promise and landing page",
+            "Days 3-5: recruit beta users and collect objections",
+            "Days 6-8: publish teardown/proof content",
+            "Days 9-11: prep Product Hunt and community posts",
+            "Days 12-14: launch, reply fast, convert demos",
+          ],
+          research: research.summary?.slice(0, 2500),
+        },
+        summary: `Launch room created for ${args.product}: 14-day calendar, assets, KPIs, and channel research. Research: ${research.summary?.slice(0, 1800)}`,
+      };
+    },
+  },
+
+  {
+    name: "prepare_investor_room",
+    description:
+      "Prepare investor-facing materials and strategy: narrative, milestones, investor targets, diligence risks, data room checklist, and update email.",
+    parameters: {
+      startup: { type: "string", description: "Startup name or description", required: true },
+      traction: { type: "string", description: "Current traction, revenue, users, pilots, or proof" },
+      raise_goal: { type: "string", description: "Funding goal or round stage" },
+    },
+    execute: async (args, context) => {
+      const research = await agentTools[1].execute(
+        { query: `${args.startup} ${context?.industry || ""} seed investors accelerators market thesis` },
+        context
+      );
+
+      return {
+        success: true,
+        data: {
+          startup: args.startup,
+          traction: args.traction || "Not provided",
+          raiseGoal: args.raise_goal || "Pre-seed or seed readiness",
+          investorRoom: [
+            "Investor memo",
+            "Pitch deck outline",
+            "Demo narrative",
+            "Traction dashboard",
+            "Use of funds",
+            "Risk and objection handling",
+            "Weekly investor update template",
+          ],
+          research: research.summary?.slice(0, 2500),
+        },
+        summary: `Investor room prepared for ${args.startup}. Includes narrative, diligence checklist, target investor research, and update cadence. Research: ${research.summary?.slice(0, 1800)}`,
       };
     },
   },

@@ -17,6 +17,7 @@ export function useAgent() {
   const aiQuality = useStore((s) => s.aiQuality);
   const conversations = useStore((s) => s.conversations);
   const activeConversationId = useStore((s) => s.activeConversationId);
+  const createConversation = useStore((s) => s.createConversation);
   const updateConversation = useStore((s) => s.updateConversation);
 
   const context = {
@@ -62,14 +63,13 @@ export function useAgent() {
       };
 
       const newMessages = [...messages, userMsg];
+      const conversationId = activeConversationId || createConversation();
       setMessages(newMessages);
       setIsThinking(true);
       setCurrentToolCall("Thinking...");
 
       // Save user message immediately
-      if (activeConversationId) {
-        updateConversation(activeConversationId, newMessages);
-      }
+      updateConversation(conversationId, newMessages);
 
       try {
         abortRef.current = new AbortController();
@@ -128,9 +128,7 @@ export function useAgent() {
         setMessages(allNew);
 
         // Save all messages
-        if (activeConversationId) {
-          updateConversation(activeConversationId, allNew);
-        }
+        updateConversation(conversationId, allNew);
       } catch (err: any) {
         if (err.name !== "AbortError") {
           setError(err.message || "Something went wrong");
@@ -142,9 +140,7 @@ export function useAgent() {
           };
           const errorMessages = [...newMessages, errorMsg];
           setMessages(errorMessages);
-          if (activeConversationId) {
-            updateConversation(activeConversationId, errorMessages);
-          }
+          updateConversation(conversationId, errorMessages);
         }
       } finally {
         setIsThinking(false);
@@ -152,7 +148,7 @@ export function useAgent() {
         abortRef.current = null;
       }
     },
-    [messages, isThinking, context, aiQuality, activeConversationId, updateConversation]
+    [messages, isThinking, context, aiQuality, activeConversationId, createConversation, updateConversation]
   );
 
   const clearMessages = useCallback(() => {

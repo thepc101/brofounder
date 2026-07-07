@@ -57,7 +57,6 @@ export function WorkspaceChat() {
 
   const conversations = useStore((s) => s.conversations);
   const activeConversationId = useStore((s) => s.activeConversationId);
-  const createConversation = useStore((s) => s.createConversation);
   const setActiveConversation = useStore((s) => s.setActiveConversation);
   const deleteConversation = useStore((s) => s.deleteConversation);
   const renameConversation = useStore((s) => s.renameConversation);
@@ -72,10 +71,6 @@ export function WorkspaceChat() {
 
   const handleSend = () => {
     if (!input.trim() || isThinking) return;
-    // Auto-create conversation if none active
-    if (!activeConversationId) {
-      createConversation();
-    }
     sendMessage(input.trim());
     setInput("");
   };
