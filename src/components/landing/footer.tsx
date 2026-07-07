@@ -47,17 +47,6 @@ export default function Footer() {
               <br />
               From idea to launch.
             </p>
-            <div className="mt-4 flex gap-3">
-              {["Twitter", "GitHub", "LinkedIn", "Discord"].map((social) => (
-                <Link
-                  key={social}
-                  href="#"
-                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {social}
-                </Link>
-              ))}
-            </div>
           </div>
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
